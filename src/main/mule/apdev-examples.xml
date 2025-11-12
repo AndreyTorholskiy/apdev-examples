@@ -16,10 +16,12 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"name" : attributes.queryParams.fname
+	"name" : vars.firstName
 }]]]></http:headers>
 			</http:response>
 		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="f0ca32f1-38f4-40a6-b52f-c0fedb166aac" message="#[vars.firstName]"/>
+		<set-variable value="#[message.attributes.queryParams.fname]" doc:name="firstName" doc:id="8a47e593-2bf6-49c8-9946-bfaeefe25b27" variableName="firstName"/>
 		<set-payload value="Hello" doc:name="Hello" doc:id="193bedf1-9d2a-4c2b-9cc8-e46e7c82e765" />
 		<http:request method="GET" doc:name="Get /goodbye" doc:id="b8d4136e-0bb6-4c59-8d16-49824f7728ca" config-ref="HTTP_Request_configuration" path="/goodbye" responseTimeout="300000">
 			<http:query-params ><![CDATA[#[output application/java
