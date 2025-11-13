@@ -20,18 +20,23 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 }]]]></http:headers>
 			</http:response>
 		</http:listener>
-		<logger level="INFO" doc:name="Logger" doc:id="f0ca32f1-38f4-40a6-b52f-c0fedb166aac" message="#[vars.firstName]"/>
-		<set-variable value="#[message.attributes.queryParams.fname]" doc:name="firstName" doc:id="8a47e593-2bf6-49c8-9946-bfaeefe25b27" variableName="firstName"/>
-		<set-payload value="Hello" doc:name="Hello" doc:id="193bedf1-9d2a-4c2b-9cc8-e46e7c82e765" />
+		<flow-ref doc:name="subflow" doc:id="ded9a64b-b330-49f8-8acc-3b3f458bcc08" name="subflow"/>
+		<flow-ref doc:name="privateFlow" doc:id="9f17c43e-2f57-4324-bbb8-01a4af5912f0" name="privateFlow" />
+		<logger level="INFO" doc:name="Logger" doc:id="4cc4135a-eacc-4c87-afdd-eb9f2b6a1bc8" message='#["\nMessage: " ++ payload]'/>
+	</flow>
+	<flow name="privateFlow" doc:id="ac246169-3d9c-4dbf-b168-224d3c363a96">
 		<http:request method="GET" doc:name="Get /goodbye" doc:id="b8d4136e-0bb6-4c59-8d16-49824f7728ca" config-ref="HTTP_Request_configuration" path="/goodbye" responseTimeout="300000">
-			<http:query-params ><![CDATA[#[output application/java
+			<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"fullName" : attributes.queryParams.fname
 }]]]></http:query-params>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="4cc4135a-eacc-4c87-afdd-eb9f2b6a1bc8" message='#["\nMessage: " ++ payload]'/>
 	</flow>
+	<sub-flow name="subflow" doc:id="6fc38b68-e997-42dc-8738-f7e81cdad5f6" >
+		<set-variable value="#[message.attributes.queryParams.fname]" doc:name="firstName" doc:id="8a47e593-2bf6-49c8-9946-bfaeefe25b27" variableName="firstName" />
+		<set-payload value="Hello" doc:name="Hello" doc:id="193bedf1-9d2a-4c2b-9cc8-e46e7c82e765" />
+	</sub-flow>
 	<flow name="goodbyeFlow" doc:id="77cbd09b-1e58-486f-9f0c-f7f5fcb239a4" >
 		<http:listener doc:name="Get /goodbye" doc:id="8c347a8c-df57-4d7b-bfba-b09bd734ad81" config-ref="HTTP_Listener_config" path="/goodbye" allowedMethods="GET"/>
 		<set-payload value="#[upper('Goodbye') ++ &quot; &quot; ++ (attributes.queryParams.fullName default &quot;Andrii&quot;)]" doc:name="Goodbye" doc:id="8b9605e5-bfee-450c-89db-11617eb22692" />
