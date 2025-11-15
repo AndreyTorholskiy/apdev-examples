@@ -23,7 +23,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="24b7760a-4c64-4329-9041-3520ce0a8458" >
 		<salesforce:basic-connection username="${secure::sfdc.username}" password="${secure::sfdc.password}" securityToken="${secure::sfdc.token}" />
 	</salesforce:sfdc-config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6ff6f02b-6ba1-49fc-b645-f0b5d8275cec" file="config.yaml" key="${runtime.property}" >
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6ff6f02b-6ba1-49fc-b645-f0b5d8275cec" file="config\local-property.yaml" key="${runtime.property}" >
 		<secure-properties:encrypt algorithm="Blowfish"/>
 	</secure-properties:config>
 	
