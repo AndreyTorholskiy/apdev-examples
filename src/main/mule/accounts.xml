@@ -43,15 +43,27 @@ payload]]></ee:set-payload>
 		</ee:transform>
 	</flow>
 	<flow name="getCSVaccounts" doc:id="2bc72821-f35d-4427-8c4a-8cdfa35211e3" >
-		<file:listener doc:name="accounts.csv" doc:id="3c472251-0b6f-48db-b727-2e2d5c1aa1fe" config-ref="File_Config" directory="input" timeBetweenSizeCheckUnit="HOURS" moveToDirectory="output" renameTo='#[attributes.fileName ++ ".backup"]'>
+		<file:listener doc:name="accounts.csv" doc:id="3c472251-0b6f-48db-b727-2e2d5c1aa1fe" config-ref="File_Config" directory="input" timeBetweenSizeCheckUnit="HOURS" moveToDirectory="output">
 			<scheduling-strategy >
 				<fixed-frequency />
 			</scheduling-strategy>
 			<file:matcher filenamePattern="*.csv" />
 		</file:listener>
+		<ee:transform doc:name="CSV to Java" doc:id="a9bf5b77-1dfa-4ea9-b627-1c0eea5ccde7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<foreach doc:name="For Each" doc:id="aec9bb6b-9ad0-433e-af77-7b39eb4112ab" >
+			<set-payload value="processed" doc:name="processed" doc:id="a7d2749a-2119-4985-ad09-be40345f8d02" />
+			<logger level="INFO" doc:name="payload" doc:id="0212890e-188a-4f35-aab0-bec43a4f0e8d" message="#[payload]"/>
+		</foreach>
 		<logger level="INFO" doc:name="Logger" doc:id="22a991a9-8094-43da-ac89-fb108642cd4e" message="#[payload]"/>
 	</flow>
-	<flow name="syncDBaccountsWithPostal" doc:id="556e543f-fc38-4dc5-ac7c-ac037db74b16">
+	<flow name="syncDBaccountsWithPostal" doc:id="556e543f-fc38-4dc5-ac7c-ac037db74b16" initialState="stopped">
 		<scheduler doc:name="Scheduler" doc:id="7f73f3ec-a1fa-4ab7-b955-eff95f4c35d9" >
 			<scheduling-strategy >
 				<fixed-frequency frequency="10" timeUnit="SECONDS"/>
