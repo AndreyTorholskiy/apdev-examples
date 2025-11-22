@@ -8,3 +8,10 @@ sfdc:
   
 file:
   accountsDir: "C:/Users/atorh/Downloads/DEX401-files5/CDEV-DEX401-EN-07Jun2024-Student-Files_SP/resources"
+  
+db:
+  host: "mudb.mule-training.com"
+  port: "3306"
+  user: "JcUbNrpRaf0="
+  password: "JcUbNrpRaf0="
+  database: "/vZNMVMTTV9pc+0kWSq+Bw=="
