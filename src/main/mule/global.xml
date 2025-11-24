@@ -33,7 +33,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 		<file:connection workingDir="${secure::file.accountsDir}" />
 	</file:config>
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="a12e38a1-233f-41db-8338-78882a2d3f30" >
-		<db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.user}" password="${secure::db.password}" database="${secure::db.database}" />
+		<db:my-sql-connection host="mudb.mule-training.com" port="3306" user="mule" password="mule" database="training" />
 	</db:config>
 	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="136c3b30-d500-4d6a-9643-44f285a882c2" >
 		<jms:active-mq-connection >
